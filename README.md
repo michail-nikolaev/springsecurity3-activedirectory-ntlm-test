@@ -1,7 +1,7 @@
 Spring Security 3 + Active Directory + NTLMv2
 ===========================================
 
-Test for usaging Spring Security 3 together with AD and NTLM authentification
+Test for usage Spring Security 3 together with AD and NTLM authentification
 
 Check next resources to get it worked:
 
