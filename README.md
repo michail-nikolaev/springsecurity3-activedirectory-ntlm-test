@@ -12,3 +12,6 @@ http://www.liferay.com/community/wiki?p_p_id=36&p_p_lifecycle=0&p_p_state=normal
 
 http://ntlmv2auth.sourceforge.net/ntlmv2-demoapp/index.html
 
+
+Run run use "gradle jettyRun" or "tomcatRun"
+
