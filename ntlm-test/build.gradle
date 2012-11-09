@@ -51,10 +51,11 @@ dependencies {
         exclude group: 'org.eclipse.jdt.core.compiler', module: 'ecj'
     }
 
-    providedCompile 'javax.servlet.jsp:jsp-api:2.1'
+    providedRuntime  'javax.servlet.jsp:jsp-api:2.1'
+    providedRuntime  'javax.servlet:servlet-api:2.4'
 }
 
 jettyRun {
     contextPath = "ntlm-test"
-    classpath += configurations.jettyRuntime
+    additionalRuntimeJars = configurations.jettyRuntime
 }
