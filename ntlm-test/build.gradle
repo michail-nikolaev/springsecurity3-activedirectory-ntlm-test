@@ -1,23 +1,9 @@
 apply plugin: 'war'
-apply plugin: 'tomcat'
-
-buildscript {
-    repositories {
-        add(new org.apache.ivy.plugins.resolver.URLResolver()) {
-            name = 'GitHub'
-            addArtifactPattern 'http://cloud.github.com/downloads/[organisation]/[module]/[module]-[revision].[ext]'
-        }
-    }
-    dependencies {
-        classpath 'bmuschko:gradle-tomcat-plugin:0.9.5'
-    }
-}
-
+apply plugin: 'jetty'
 
 repositories {
     mavenCentral()    
 }
-
 
 dependencies {
 
@@ -31,14 +17,16 @@ dependencies {
     compile group: 'org.springframework.security', name: 'spring-security-config', version: "$springVersion"
     compile group: 'org.springframework.security', name: 'spring-security-ldap', version: "$springVersion"
     compile group: 'org.springframework.security', name: 'spring-security-web', version: "$springVersion"
+    compile group: 'org.springframework.security', name: 'spring-security-taglibs', version: "$springVersion"
+
 
     compile 'cglib:cglib-nodep:2.2'
+    compile 'jstl:jstl:1.2'
 
+    providedCompile 'javax.servlet.jsp:jsp-api:2.1'
     providedCompile 'javax:javaee-api:6.0'
+}
 
-    tomcat "org.apache.tomcat.embed:tomcat-embed-core:${tomcatVersion}",
-            "org.apache.tomcat.embed:tomcat-embed-logging-juli:${tomcatVersion}"
-    tomcat("org.apache.tomcat.embed:tomcat-embed-jasper:${tomcatVersion}") {
-        exclude group: 'org.eclipse.jdt.core.compiler', module: 'ecj'
-    }
+jettyRun {
+    contextPath = "/"
 }
