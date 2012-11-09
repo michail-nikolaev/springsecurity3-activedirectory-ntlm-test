@@ -1,8 +1,27 @@
 apply plugin: 'war'
 apply plugin: 'jetty'
+apply plugin: 'tomcat'
+
+// use jettyRun and tomcatRun to start
+
+buildscript {
+    repositories {
+        add(new org.apache.ivy.plugins.resolver.URLResolver()) {
+            name = 'GitHub'
+            addArtifactPattern 'http://cloud.github.com/downloads/[organisation]/[module]/[module]-[revision].[ext]'
+        }
+    }
+    dependencies {
+        classpath 'bmuschko:gradle-tomcat-plugin:0.9.5'
+    }
+}
 
 repositories {
-    mavenCentral()    
+    mavenCentral()
+}
+
+configurations {
+    jettyRuntime
 }
 
 dependencies {
@@ -22,13 +41,20 @@ dependencies {
     compile 'cglib:cglib-nodep:2.2'
     compile 'jstl:jstl:1.2'
 
-    compile 'javax.validation:validation-api:1.0.0.GA'
-    compile 'org.hibernate:hibernate-validator:4.3.0.Final'
-    compile 'org.jboss.spec:jboss-javaee-6.0:1.0.0.Final'
+    jettyRuntime 'javax.validation:validation-api:1.0.0.GA'
+    jettyRuntime 'org.hibernate:hibernate-validator:4.3.0.Final'
+    jettyRuntime 'org.jboss.spec:jboss-javaee-6.0:1.0.0.Final'
+
+    tomcat "org.apache.tomcat.embed:tomcat-embed-core:${tomcatVersion}",
+            "org.apache.tomcat.embed:tomcat-embed-logging-juli:${tomcatVersion}"
+    tomcat("org.apache.tomcat.embed:tomcat-embed-jasper:${tomcatVersion}") {
+        exclude group: 'org.eclipse.jdt.core.compiler', module: 'ecj'
+    }
 
     providedCompile 'javax.servlet.jsp:jsp-api:2.1'
 }
 
 jettyRun {
-    contextPath = "/"
+    contextPath = "ntlm-test"
+    classpath += configurations.jettyRuntime
 }

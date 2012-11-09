@@ -8,6 +8,7 @@ ext {
     springVersion = "3.1.2.RELEASE"
     logbackVersion = "1.0.7"
     ntlmv2Version = "1.0.5"
+    tomcatVersion = "7.0.11"
 }
 
 subprojects {
@@ -21,6 +22,7 @@ subprojects {
 
     configurations {
         all*.exclude group: "commons-logging", module: "commons-logging"
+        all*.exclude group: "javax.servlet", module: "servlet-api"
     }
 
     dependencies {
