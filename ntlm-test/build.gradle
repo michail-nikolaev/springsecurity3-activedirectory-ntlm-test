@@ -1,0 +1,38 @@
+apply plugin: 'war'
+apply plugin: 'tomcat'
+
+buildscript {
+    repositories {
+        add(new org.apache.ivy.plugins.resolver.URLResolver()) {
+            name = 'GitHub'
+            addArtifactPattern 'http://cloud.github.com/downloads/[organisation]/[module]/[module]-[revision].[ext]'
+        }
+    }
+    dependencies {
+        classpath 'bmuschko:gradle-tomcat-plugin:0.9.5'
+    }
+}
+
+
+repositories {
+    mavenCentral()    
+}
+
+
+dependencies {
+
+    compile "ch.poweredge.ntlmv2-auth:ntlmv2-lib:$ntlmv2Version"
+
+    compile group: 'org.springframework', name: 'spring-context', version: "$springVersion"
+    compile group: 'org.springframework', name: 'spring-webmvc', version: "$springVersion"
+    compile group: 'org.springframework', name: 'spring-aspects', version: "$springVersion"
+    compile group: 'org.springframework.security', name: 'spring-security-ldap', version: "$springVersion"
+
+    providedCompile 'javax:javaee-api:6.0'
+
+    tomcat "org.apache.tomcat.embed:tomcat-embed-core:${tomcatVersion}",
+            "org.apache.tomcat.embed:tomcat-embed-logging-juli:${tomcatVersion}"
+    tomcat("org.apache.tomcat.embed:tomcat-embed-jasper:${tomcatVersion}") {
+        exclude group: 'org.eclipse.jdt.core.compiler', module: 'ecj'
+    }
+}
