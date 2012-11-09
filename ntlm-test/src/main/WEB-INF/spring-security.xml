@@ -12,7 +12,7 @@
     </s:http>
 
     <context:property-placeholder
-            location="classpath:/ad.properties"/>
+            location="classpath:/activedirectory.properties"/>
 
     <bean id="activeDirectoryAuthenticationProvider"
           class="org.springframework.security.ldap.authentication.ad.ActiveDirectoryLdapAuthenticationProvider">
