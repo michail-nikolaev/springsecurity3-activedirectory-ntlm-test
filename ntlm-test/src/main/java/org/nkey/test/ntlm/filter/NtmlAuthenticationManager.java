@@ -1,9 +1,11 @@
 package org.nkey.test.ntlm.filter;
 
+import org.nkey.test.ntlm.ldap.LdapPrinciple;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -14,52 +16,76 @@ import java.util.Collection;
 public class NtmlAuthenticationManager implements AuthenticationManager {
     @Override
     public Authentication authenticate(final Authentication authentication) throws AuthenticationException {
-        // TODO
-        return new Authentication() {
+        final GrantedAuthority grantedAuthority = new GrantedAuthority() {
+            @Override
+            public String getAuthority() {
+                return "ROLE_USER";
+            }
+        };
+        final LdapPrinciple principle = new LdapPrinciple() {
+            @Override
+            public String getDisplayName() {
+                return "displayName";
+            }
+
+            @Override
+            public String getDn() {
+                return "dn";
+            }
+
             @Override
             public Collection<? extends GrantedAuthority> getAuthorities() {
-                return Arrays.asList(new GrantedAuthority() {
-                    @Override
-                    public String getAuthority() {
-                        return "ROLE_USER";
-                    }
-                });
+                return Arrays.asList(grantedAuthority);
             }
 
             @Override
-            public Object getCredentials() {
-                return authentication.getCredentials();
+            public String getPassword() {
+                return "";
             }
 
             @Override
-            public Object getDetails() {
-                return authentication.getDetails();
+            public String getUsername() {
+                return "username";
             }
 
             @Override
-            public Object getPrincipal() {
-                return authentication.getPrincipal();
-            }
-
-            @Override
-            public boolean isAuthenticated() {
+            public boolean isAccountNonExpired() {
                 return true;
             }
 
             @Override
-            public void setAuthenticated(boolean isAuthenticated) throws IllegalArgumentException {
-                throw new UnsupportedOperationException();
+            public boolean isAccountNonLocked() {
+                return true;
             }
 
-            public String getDisplayName() {
-                return authentication.getName();
+            @Override
+            public boolean isCredentialsNonExpired() {
+                return true;
+            }
+
+            @Override
+            public boolean isEnabled() {
+                return true;
+            }
+        };
+        Authentication result = new PreAuthenticatedAuthenticationToken(principle, "N/A") {
+            @Override
+            public Collection<GrantedAuthority> getAuthorities() {
+                return Arrays.asList(grantedAuthority);
             }
 
             @Override
             public String getName() {
-                return authentication.getName();
+                return principle.getUsername();
+            }
+
+            @Override
+            public Object getDetails() {
+                return principle.getDisplayName();
             }
         };
+        result.setAuthenticated(true);
+        return result;
     }
 
 

@@ -11,7 +11,7 @@ import java.util.Collection;
 /**
  * @author m.nikolaev Date: 09.11.12 Time: 23:03
  */
-public class ActiveDirectoryUserDetails extends LdapUserDetailsImpl {
+public class ActiveDirectoryUserDetails extends LdapUserDetailsImpl implements LdapPrinciple {
     private String username;
     private String dn;
     private String displayName;
@@ -43,6 +43,7 @@ public class ActiveDirectoryUserDetails extends LdapUserDetailsImpl {
         return authorities;
     }
 
+    @Override
     public String getDisplayName() {
         return displayName;
     }
@@ -55,5 +56,10 @@ public class ActiveDirectoryUserDetails extends LdapUserDetailsImpl {
                 ", dn='" + dn + '\'' +
                 ", displayName='" + displayName + '\'' +
                 '}';
+    }
+
+    @Override
+    public int hashCode() {
+        return dn.hashCode();
     }
 }

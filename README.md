@@ -12,5 +12,9 @@ http://www.liferay.com/community/wiki?p_p_id=36&p_p_lifecycle=0&p_p_state=normal
 
 http://ntlmv2auth.sourceforge.net/ntlmv2-demoapp/index.html
 
+http://issues.liferay.com/browse/LPS-15380?focusedCommentId=135462&page=com.atlassian.jira.plugin.system.issuetabpanels:comment-tabpanel#comment-135462
+
+http://www.liferay.com/community/forums/-/message_boards/message/10737885
+
 To run use "gradle jettyRun" or "tomcatRun"
 
