@@ -18,5 +18,5 @@ http://www.liferay.com/community/forums/-/message_boards/message/10737885
 
 To run use "gradle jettyRun" or "tomcatRun"
 
-Check activedirectory for settings.
+Check activedirectory.properties for settings.
 
