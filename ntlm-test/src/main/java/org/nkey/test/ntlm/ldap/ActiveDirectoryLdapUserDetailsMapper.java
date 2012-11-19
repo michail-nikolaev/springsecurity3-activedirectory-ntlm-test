@@ -20,6 +20,6 @@ public class ActiveDirectoryLdapUserDetailsMapper extends LdapUserDetailsMapper 
     public UserDetails mapUserFromContext(DirContextOperations ctx, String username,
                                           Collection<? extends GrantedAuthority> authorities) {
         UserDetails userDetails = super.mapUserFromContext(ctx, username, authorities);
-        return new ActiveDirectoryUserDetails((LdapUserDetailsImpl) userDetails, ctx);
+        return new LdapPrincipleImpl((LdapUserDetailsImpl) userDetails, ctx);
     }
 }

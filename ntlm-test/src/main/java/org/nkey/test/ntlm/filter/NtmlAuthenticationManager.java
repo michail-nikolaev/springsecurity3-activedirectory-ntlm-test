@@ -1,6 +1,9 @@
 package org.nkey.test.ntlm.filter;
 
 import org.nkey.test.ntlm.ldap.LdapPrinciple;
+import org.ntlmv2.liferay.NtlmUserAccount;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -13,9 +16,14 @@ import java.util.Collection;
 /**
  * @author m.nikolaev Date: 10.11.12 Time: 2:25
  */
+
 public class NtmlAuthenticationManager implements AuthenticationManager {
+    private static final Logger LOGGER = LoggerFactory.getLogger(NtmlAuthenticationManager.class);
+
     @Override
     public Authentication authenticate(final Authentication authentication) throws AuthenticationException {
+        final NtlmUserAccount ntlmUserAccount = (NtlmUserAccount) authentication.getPrincipal();
+
         final GrantedAuthority grantedAuthority = new GrantedAuthority() {
             @Override
             public String getAuthority() {
@@ -25,7 +33,7 @@ public class NtmlAuthenticationManager implements AuthenticationManager {
         final LdapPrinciple principle = new LdapPrinciple() {
             @Override
             public String getDisplayName() {
-                return "displayName";
+                return ntlmUserAccount.getUserName();
             }
 
             @Override
@@ -45,7 +53,7 @@ public class NtmlAuthenticationManager implements AuthenticationManager {
 
             @Override
             public String getUsername() {
-                return "username";
+                return ntlmUserAccount.getUserName();
             }
 
             @Override

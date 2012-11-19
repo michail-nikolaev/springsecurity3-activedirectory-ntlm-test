@@ -14,7 +14,7 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 @Configuration
 @EnableWebMvc
 @ComponentScan(basePackageClasses = BasePackageMarker.class)
-@ImportResource({ "classpath*:*spring-security.xml"})
+@ImportResource({ "classpath*:*spring-security.xml" })
 public class WebConfiguration {
     @Bean
     public InternalResourceViewResolver internalResourceViewResolver() {

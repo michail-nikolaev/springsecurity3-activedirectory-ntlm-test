@@ -41,6 +41,8 @@ dependencies {
     compile 'cglib:cglib-nodep:2.2'
     compile 'jstl:jstl:1.2'
 
+    compile 'com.google.guava:guava:11.0.2'
+
     jettyRuntime 'javax.validation:validation-api:1.0.0.GA'
     jettyRuntime 'org.hibernate:hibernate-validator:4.3.0.Final'
     jettyRuntime 'org.jboss.spec:jboss-javaee-6.0:1.0.0.Final'
