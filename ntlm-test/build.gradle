@@ -53,8 +53,8 @@ dependencies {
         exclude group: 'org.eclipse.jdt.core.compiler', module: 'ecj'
     }
 
-    providedRuntime  'javax.servlet.jsp:jsp-api:2.1'
-    providedRuntime  'javax.servlet:servlet-api:2.4'
+    providedRuntime 'javax.servlet.jsp:jsp-api:2.1'
+    providedRuntime 'javax.servlet:servlet-api:2.4'
 }
 
 jettyRun {

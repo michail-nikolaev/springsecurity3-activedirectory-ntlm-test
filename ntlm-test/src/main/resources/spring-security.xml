@@ -5,13 +5,22 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
     http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.1.xsd   http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd">
 
-    <bean id="ntmlAuthenticationFilter" class="org.nkey.test.ntlm.filter.NtmlAuthenticationFilter">
-        <property name="authenticationManager" ref="ntmlAuthenticationManager"/>
+    <bean id="ntlmAuthenticationFilter" class="org.nkey.test.ntlm.filter.NtlmAuthenticationFilter">
+        <property name="authenticationManager" ref="ntlmAuthenticationManager"/>
     </bean>
-    <bean id="ntmlAuthenticationManager" class="org.nkey.test.ntlm.filter.NtmlAuthenticationManager"/>
+    <bean id="ntlmAuthenticationManager" class="org.nkey.test.ntlm.filter.NtlmAuthenticationManager">
+        <property name="ldapSearchRootDn" value="${active_directory.search.root}"/>
+        <property name="principalBindSuffix" value="${active_directory.search.principal.bind.suffix}"/>
+    </bean>
+
+    <bean id="activeDirectoryLdapUserDetailsMapper"
+          class="org.nkey.test.ntlm.ldap.ActiveDirectoryLdapUserDetailsMapper"/>
+    <bean id="authorityMapper" class="org.springframework.security.core.authority.mapping.SimpleAuthorityMapper">
+        <property name="defaultAuthority" value="ROLE_USER"/>
+    </bean>
 
     <s:http auto-config="true" use-expressions="true">
-        <s:custom-filter position="PRE_AUTH_FILTER" ref="ntmlAuthenticationFilter"/>
+        <s:custom-filter position="PRE_AUTH_FILTER" ref="ntlmAuthenticationFilter"/>
 
         <s:intercept-url pattern="/favicon.ico" access="permitAll"/>
         <s:intercept-url pattern="/login*" access="isAnonymous"/>
@@ -21,19 +30,14 @@
     <context:property-placeholder
             location="classpath:/activedirectory.properties"/>
 
+
     <bean id="activeDirectoryAuthenticationProvider"
           class="org.springframework.security.ldap.authentication.ad.ActiveDirectoryLdapAuthenticationProvider">
-        <constructor-arg value="${activedirectory.domain}"/>
-        <constructor-arg value="${activedirectory.server}"/>
+        <constructor-arg value="${active_directory.domain}"/>
+        <constructor-arg value="${active_directory.server}"/>
         <property name="convertSubErrorCodesToExceptions" value="true"/>
-        <property name="userDetailsContextMapper">
-            <bean class="org.nkey.test.ntlm.ldap.ActiveDirectoryLdapUserDetailsMapper"/>
-        </property>
-        <property name="authoritiesMapper">
-            <bean class="org.springframework.security.core.authority.mapping.SimpleAuthorityMapper">
-                <property name="defaultAuthority" value="ROLE_USER"/>
-            </bean>
-        </property>
+        <property name="userDetailsContextMapper" ref="activeDirectoryLdapUserDetailsMapper"/>
+        <property name="authoritiesMapper" ref="authorityMapper"/>
     </bean>
 
     <s:authentication-manager>

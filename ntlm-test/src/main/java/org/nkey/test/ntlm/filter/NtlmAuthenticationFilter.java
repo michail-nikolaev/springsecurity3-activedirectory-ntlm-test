@@ -27,8 +27,8 @@ import java.util.concurrent.TimeUnit;
 /**
  * @author m.nikolaev Date: 10.11.12 Time: 1:33
  */
-public class NtmlAuthenticationFilter extends AbstractPreAuthenticatedProcessingFilter {
-    private static final Logger LOGGER = LoggerFactory.getLogger(NtmlAuthenticationFilter.class);
+public class NtlmAuthenticationFilter extends AbstractPreAuthenticatedProcessingFilter {
+    private static final Logger LOGGER = LoggerFactory.getLogger(NtlmAuthenticationFilter.class);
     public static final String NTLM_HEADER_SENT = "ntlmHeaderSent";
     public static final String NTLM_AUTH_PREFIX = "NTLM";
     private Cache<String, byte[]> cache = CacheBuilder.newBuilder().expireAfterWrite(1, TimeUnit.MINUTES).build();
