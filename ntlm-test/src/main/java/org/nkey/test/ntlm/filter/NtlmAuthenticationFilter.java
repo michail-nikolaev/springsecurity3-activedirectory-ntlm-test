@@ -49,7 +49,13 @@ public class NtlmAuthenticationFilter extends AbstractPreAuthenticatedProcessing
             throws IOException, ServletException {
         try {
             responseThreadLocal.set((HttpServletResponse) response);
-            super.doFilter(request, response, chain);
+            HttpServletRequest httpServletRequest = (HttpServletRequest) request;
+            if (httpServletRequest.getMethod().toLowerCase().equals(POST)
+                    && httpServletRequest.getContentLength() == 0) {
+                getPreAuthenticatedPrincipal(httpServletRequest);
+            } else {
+                super.doFilter(request, response, chain);
+            }
         } finally {
             responseThreadLocal.set(null);
         }
