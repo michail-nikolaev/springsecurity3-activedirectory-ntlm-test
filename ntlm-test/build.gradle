@@ -8,7 +8,7 @@ buildscript {
     repositories {
         add(new org.apache.ivy.plugins.resolver.URLResolver()) {
             name = 'GitHub'
-            addArtifactPattern 'http://cloud.github.com/downloads/[organisation]/[module]/[module]-[revision].[ext]'
+            addArtifactPattern 'https://cloud.github.com/downloads/[organisation]/[module]/[module]-[revision].[ext]'
         }
     }
     dependencies {

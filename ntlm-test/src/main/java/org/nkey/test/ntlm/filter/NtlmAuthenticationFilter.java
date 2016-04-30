@@ -31,6 +31,7 @@ public class NtlmAuthenticationFilter extends AbstractPreAuthenticatedProcessing
     private static final Logger LOGGER = LoggerFactory.getLogger(NtlmAuthenticationFilter.class);
     public static final String NTLM_HEADER_SENT = "ntlmHeaderSent";
     public static final String NTLM_AUTH_PREFIX = "NTLM";
+    private static final String POST = "post";
     private Cache<String, byte[]> cache = CacheBuilder.newBuilder().expireAfterWrite(1, TimeUnit.MINUTES).build();
     private SecureRandom secureRandom = new SecureRandom();
 
